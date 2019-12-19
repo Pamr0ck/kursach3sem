@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    arch = new archivator;
 }
 
 MainWindow::~MainWindow()
@@ -16,5 +17,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_DO_clicked()
 {
-    if ui->
+    if(ui->code->isChecked()) code = true;
+    if(ui->decode->isChecked()) code = false;
+    if(code){
+        ui->output->setPlainText( arch->DoCode(ui->input->toPlainText()));
+    }
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "archivator.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +21,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    archivator *arch;
     bool code = true;
 };
 #endif // MAINWINDOW_H

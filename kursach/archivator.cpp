@@ -147,12 +147,13 @@ Node* find(Node *root, code path){
     return current;
 }
 
-void DoCode (QString in){
+QString DoCode (QString stream){
     QString coded;
     QChar buf;
+    unsigned long long i = 0;
     std::map<char,Node*> leafs;
 
-    std::vector<std::string> code;
+//    std::vector<std::string> code;
 
     Node* root = new Node;
     Node* esc = root;
@@ -160,24 +161,26 @@ void DoCode (QString in){
     QString str;
 
     std::cout << "Print a message needs to be encrypted:" << std::endl;
-    std::getline(std::cin, str);
+//    std::getline(std::cin, str);
 
-    std::stringstream stream(str);
+//    std::stringstream stream(str);
 
-    while(stream.get(buf)){
+//    while(stream.get(buf)){
+    while(!stream.isEmpty()){
+        buf = stream.at(i).unicode();
         if(leafs[buf]){
             inc_weight(leafs[buf]);    // + balance??
             //
             coded+=pref(leafs[buf]);
             //
-            code.push_back(pref(leafs[buf]));
+//            code.push_back(pref(leafs[buf]));
         } else {
 
             //
             coded+=pref(esc);
             coded+=to_binar(buf);
             //
-            code.push_back(pref(esc) + "\'" + buf + "\'");
+//            code.push_back(pref(esc) + "\'" + buf + "\'");
 
             leafs[buf] = new Node;
             leafs[buf]->letter = buf;
@@ -204,19 +207,20 @@ void DoCode (QString in){
         balance(root);
     }
 
-    for(auto it: code)
-        std::cout << it << " ";
-    std::cout << std::endl;
+//    for(auto it: code)
+//        std::cout << it << " ";
+//    std::cout << std::endl;
 
-    for(char it: coded) {
+//    for(auto it: coded) {
 
-        printf("%c", it);
-    }
-    std::cout << std::endl;
+//        printf("%c", it);
+//    }
+//    std::cout << std::endl;
+    return coded;
 
 }
 
-
+/*
 void DoDeCode(){
     char buf;
         code letter;
@@ -315,3 +319,4 @@ void DoDeCode(){
         }
         std::cout<<std::endl;
 }
+*/

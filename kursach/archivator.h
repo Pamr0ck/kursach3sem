@@ -12,7 +12,9 @@
 #include <QVector>
 #include <QQueue>
 #include <wchar.h>
-#define QChar wchar_t
+
+
+//#define QChar wchar_t
 #define QCHARLEN 7   // utf-8
 typedef QVector<QChar> code;
 
@@ -32,6 +34,7 @@ class archivator
 {
 public:
     archivator();
+    QString DoCode (QString stream);
 };
 
 #endif // ARCHIVATOR_H
