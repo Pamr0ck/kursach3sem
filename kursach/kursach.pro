@@ -17,8 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     archivator.cpp \
-    coder.cpp \
-    decoder.cpp \
     main.cpp \
     mainwindow.cpp
 

@@ -15,7 +15,7 @@
 
 
 //#define QChar wchar_t
-#define QCHARLEN 7   // utf-8
+#define QCHARLEN 15   // utf-8
 typedef QVector<QChar> code;
 
 struct Node{

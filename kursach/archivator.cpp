@@ -7,8 +7,8 @@ archivator::archivator()
 
 }
 
-QString to_binar(QChar buf){
-    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64};
+QString to_binar(wchar_t buf){
+    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384};
     QString result;
     int i = QCHARLEN;
 
@@ -19,15 +19,15 @@ QString to_binar(QChar buf){
     return result;
 }
 
-char to_letter(QVector<QChar> input){
+char to_letter(QVector<wchar_t> input){
     int i=0;
     unsigned short mask[] = { 64, 32, 16, 8 , 4, 2, 1};
     int d_letter = 0;
-    for (QChar it:input){
+    for (wchar_t it:input){
         d_letter += (it-L'0' )*mask[i];
         i++;
     }
-    return (QChar)d_letter;
+    return (wchar_t)d_letter;
 }
 
 
@@ -147,11 +147,11 @@ Node* find(Node *root, code path){
     return current;
 }
 
-QString DoCode (QString stream){
+QString archivator::DoCode (QString stream){
     QString coded;
-    QChar buf;
+    wchar_t buf;
     unsigned long long i = 0;
-    std::map<char,Node*> leafs;
+    std::map<wchar_t,Node*> leafs;
 
 //    std::vector<std::string> code;
 
@@ -166,8 +166,9 @@ QString DoCode (QString stream){
 //    std::stringstream stream(str);
 
 //    while(stream.get(buf)){
-    while(!stream.isEmpty()){
+    while(i<stream.length()){
         buf = stream.at(i).unicode();
+        i++;
         if(leafs[buf]){
             inc_weight(leafs[buf]);    // + balance??
             //
