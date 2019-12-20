@@ -6,8 +6,6 @@ about::about(QWidget *parent) :
     ui(new Ui::about)
 {
     ui->setupUi(this);
-//    QPixmap myPixmap("qrc:/img/img/me.sFfjs.jpg");
-//    ui->YA->setPixmap( myPixmap );
 }
 
 about::~about()

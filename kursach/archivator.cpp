@@ -7,7 +7,7 @@ archivator::archivator()
 
 }
 
-QString to_binar(wchar_t buf){
+QString archivator::to_binar(wchar_t buf){
 //    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128};
 
     unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768};
@@ -21,7 +21,7 @@ QString to_binar(wchar_t buf){
     return result;
 }
 
-QChar to_letter(QVector<wchar_t> input){
+QChar archivator::to_letter(QVector<wchar_t> input){
     int i=0;
     unsigned short mask[] = {32768,16384,8192,4096,2048,1024,512,256,128, 64, 32, 16, 8 , 4, 2, 1};
 //    unsigned short mask[] = {128, 64, 32, 16, 8 , 4, 2, 1};
@@ -34,12 +34,12 @@ QChar to_letter(QVector<wchar_t> input){
     return (QChar)tmp;
 }
 
-void inc_weight(Node* n){
+void archivator::inc_weight(Node* n){
     n->w++;
     if(n->parent) inc_weight(n->parent);
 }
 
-void switch_nodes(Node* a, Node* b){
+void archivator::archivator::switch_nodes(Node* a, Node* b){
     Node *tmp = a->parent;
 
     if(a->parent != b->parent){
@@ -62,7 +62,7 @@ void switch_nodes(Node* a, Node* b){
     }
 }
 
-QVector<Node*> bfs(Node* root){    // список элементов наоборот
+QVector<Node*> archivator::bfs(Node* root){    // список элементов наоборот
     Node* tmp;
     QVector<Node*> out;
 
@@ -83,13 +83,13 @@ QVector<Node*> bfs(Node* root){    // список элементов наобо
     return out;
 }
 
-void recount_weights(QVector<Node*> &tree){
+void archivator::recount_weights(QVector<Node*> &tree){
     for(auto i = 1; i < tree.size(); i+=2){
         tree[i]->parent->w = tree[i]->w + tree[i]->parent->left->w;
     }
 }
 
-void balance(Node* root){
+void archivator::balance(Node* root){
     QVector<Node*> tree = bfs(root);
 
     int size = tree.size();
@@ -108,7 +108,7 @@ void balance(Node* root){
 }
 
 
-QString pref(Node* esc){   //prefix of letter
+QString archivator::pref(Node* esc){   //prefix of letter
     QString out = "";
 
     Node* tmp = esc;
@@ -121,7 +121,7 @@ QString pref(Node* esc){   //prefix of letter
     return out;
 }
 
-void readletter(QString stream, code &letter, unsigned long long &i, const int &letterlen){
+void archivator::readletter(QString stream, code &letter, unsigned long long &i, const int &letterlen){
     wchar_t buf;
     const unsigned long long tmp = i;
     for(i; i < letterlen+tmp; i++){
@@ -130,7 +130,7 @@ void readletter(QString stream, code &letter, unsigned long long &i, const int &
     }
 }
 
-int is_leaf(Node* n){
+int archivator::is_leaf(Node* n){
     if(n->left || n->right)
         return 0;
     else if (n->w)
@@ -138,7 +138,7 @@ int is_leaf(Node* n){
     return -1;
 }
 
-Node* find(Node *root, code path){
+Node* archivator::find(Node *root, code path){
     Node* current = root;
     while(!path.empty()){
         if(path[0] == '0' && current->left)
@@ -246,10 +246,7 @@ QString archivator::DoDeCode(QString stream){
         if(esc == root){
             readletter(stream, letter,i, QCHARLEN - 1);
             letter.insert(letter.begin(), buf);
-//            letter.emplace(letter.begin(), buf);
-
-//            message.push_back(letter);
-            //
+         //
             text.push_back(to_letter(letter));
             //
 
@@ -277,7 +274,6 @@ QString archivator::DoDeCode(QString stream){
                 case  1:{
                     letter.clear();
 
-//                    message.push_back(intree->letter);
                     //
                     text.push_back(to_letter(intree->letter_bin));
                     //
@@ -287,7 +283,6 @@ QString archivator::DoDeCode(QString stream){
                 case -1:{
                     letter.clear();
                     readletter(stream, letter,i, QCHARLEN);
-//                    message.push_back(letter);
                     //
                     text.push_back(to_letter(letter));
                     //
@@ -317,16 +312,6 @@ QString archivator::DoDeCode(QString stream){
         balance(root);
     }
 
-//    for(auto letter: message){
-//        for(auto b: letter){
-//            std::cout << b;
-//        }
-//        std::cout << std::endl;
-//    }
-//    for(auto let:text){
-//        std::cout<<let;
-//    }
-//    std::cout<<std::endl;
     ROOT = root;
     return text;
 }

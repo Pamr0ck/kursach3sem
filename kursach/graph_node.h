@@ -6,6 +6,7 @@
 #include <QList>
 #include <QString>
 
+
 class Edge;
 class graph;
 class QGraphicsSceneMouseEvent;
@@ -13,6 +14,7 @@ class graph_node : public QGraphicsItem
 {
 public:
     graph_node(graph *graphWidget, QString data);
+
 
     void addEdge(Edge *edge);
     QList<Edge *> edges() const;

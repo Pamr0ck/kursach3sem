@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -35,7 +34,6 @@ void MainWindow::on_DO_clicked()
           save_without_show();
           return;
         }
-    //    QMessageBox::warning(this, "Внимание", "Оюъем сообщения может сказать на работе программы. Предлагаю вам сохранить данные сразу в файл");
     }
     if(code){
         ui->output->setPlainText( arch->DoCode(ui->input->toPlainText()));
@@ -118,3 +116,4 @@ void MainWindow::on_actionExit_triggered()
 {
     this->close();
 }
+

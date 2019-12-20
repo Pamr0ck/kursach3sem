@@ -23,6 +23,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void on_DO_clicked();
 
@@ -39,11 +40,14 @@ private slots:
 
     void on_actionExit_triggered();
 
+//    void on_dont_move_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     archivator *arch;
     about * abt;
     help *hlp;
     bool code = true;
+
 };
 #endif // MAINWINDOW_H
