@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     arch = new archivator;
     abt = new about;
+    hlp = new help;
 }
 
 MainWindow::~MainWindow()
@@ -20,21 +21,22 @@ void MainWindow::on_DO_clicked()
 {
     if(ui->code->isChecked()) code = true;
     if(ui->decode->isChecked()) code = false;
-    QMessageBox* msgb = new QMessageBox("Внимание",
-                                        "Обьем сообщения может сказать на работе программы. Предлагаю вам сохранить данные сразу в файл",
-                                        QMessageBox::Information,
-                                        QMessageBox::Yes,
-                                        QMessageBox::No,
-                                        QMessageBox::Cancel | QMessageBox::Escape);
-    int n = msgb->exec();
-    delete msgb;
-    if (n == QMessageBox::Yes)
-    {
-      save_without_show();
-      return;
+    if(ui->input->toPlainText().length()>1000){
+        QMessageBox* msgb = new QMessageBox("Внимание",
+                                            "Обьем сообщения может сказать на работе программы. Предлагаю вам сохранить данные сразу в файл",
+                                            QMessageBox::Information,
+                                            QMessageBox::Yes,
+                                            QMessageBox::No,
+                                            QMessageBox::Cancel | QMessageBox::Escape);
+        int n = msgb->exec();
+        delete msgb;
+        if (n == QMessageBox::Yes)
+        {
+          save_without_show();
+          return;
+        }
+    //    QMessageBox::warning(this, "Внимание", "Оюъем сообщения может сказать на работе программы. Предлагаю вам сохранить данные сразу в файл");
     }
-//    QMessageBox::warning(this, "Внимание", "Оюъем сообщения может сказать на работе программы. Предлагаю вам сохранить данные сразу в файл");
-
     if(code){
         ui->output->setPlainText( arch->DoCode(ui->input->toPlainText()));
     }
@@ -96,6 +98,7 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
+    abt->setWindowTitle("About author");
     abt->show();
 }
 
@@ -103,4 +106,15 @@ void MainWindow::on_Visualize_clicked()
 {
     graph *sWindow = new graph(nullptr, arch->ROOT);
     sWindow->show();
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    hlp->setWindowTitle("Help");
+    hlp->show();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
 }

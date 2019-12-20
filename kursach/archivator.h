@@ -16,7 +16,7 @@
 
 
 //#define QChar wchar_t
-#define QCHARLEN 16   // utf-8
+#define QCHARLEN 16   // wchar_t
 typedef QVector<wchar_t> code;
 typedef std::vector<wchar_t> decode;
 

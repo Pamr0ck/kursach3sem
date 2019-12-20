@@ -8,6 +8,8 @@ archivator::archivator()
 }
 
 QString to_binar(wchar_t buf){
+//    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128};
+
     unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768};
     QString result;
     int i = QCHARLEN;
@@ -22,6 +24,7 @@ QString to_binar(wchar_t buf){
 QChar to_letter(QVector<wchar_t> input){
     int i=0;
     unsigned short mask[] = {32768,16384,8192,4096,2048,1024,512,256,128, 64, 32, 16, 8 , 4, 2, 1};
+//    unsigned short mask[] = {128, 64, 32, 16, 8 , 4, 2, 1};
     unsigned long long d_letter = 0;
     for (wchar_t it:input){
         d_letter += (it-L'0' )*mask[i];
@@ -236,12 +239,6 @@ QString archivator::DoDeCode(QString stream){
     Node* root = new Node;
     Node* esc = root;
 
-//    std::string str;
-
-//    std::cout << "Print a message needs to be decrypted:" << std::endl;
-//    std::getline(std::cin, str);
-
-//    std::stringstream stream(str);
 
     while(i<stream.length()){
         buf = stream.at(i).unicode();
@@ -265,6 +262,10 @@ QString archivator::DoDeCode(QString stream){
             root->right = leafs[letter];
             leafs[letter]->parent = root;
             inc_weight(leafs[letter]);
+
+
+
+            leafs[letter]->letter = to_letter(leafs[letter]->letter_bin);
 
             letter.clear();
         } else {
@@ -302,6 +303,7 @@ QString archivator::DoDeCode(QString stream){
                     n->right = leafs[letter];
                     leafs[letter]->parent = n;
                     inc_weight(leafs[letter]);
+                    leafs[letter]->letter = to_letter(leafs[letter]->letter_bin);
                     letter.clear();
                     break;
                 }

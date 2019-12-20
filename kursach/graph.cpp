@@ -23,7 +23,9 @@ graph::graph(QWidget *parent, Node* head)
 
 graph_node* graph::construct(QGraphicsScene* scene, Node* elem, int x, int y)
 {
-    graph_node* element = new graph_node(this, QString::number(elem->w));
+    QString tmp="";
+    tmp = elem->letter!=0 ? elem->letter : QString::number( elem ->w);
+    graph_node* element = new graph_node(this, tmp);
     scene->addItem(element);
     if(elem->left != nullptr)
         scene->addItem(new Edge(element, construct(scene, elem->left, x+75, y-y*0.5)));
@@ -126,8 +128,7 @@ void graph::drawBackground(QPainter *painter, const QRectF &rect)
     // Text
     QRectF textRect(sceneRect.left() + 4, sceneRect.top() + 4,
                     sceneRect.width() - 4, sceneRect.height() - 4);
-    QString message(tr("Click and drag the nodes around, and zoom with the mouse "
-                       "wheel or the '+' and '-' keys"));
+    QString message(tr("Click and drag the nodes around, and zoom with the mouse "));
 
     QFont font = painter->font();
     font.setBold(true);

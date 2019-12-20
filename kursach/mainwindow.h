@@ -7,6 +7,7 @@
 #include "edge.h"
 #include "archivator.h"
 #include "about.h"
+#include "help.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -34,10 +35,15 @@ private slots:
 
     void on_Visualize_clicked();
 
+    void on_actionHelp_triggered();
+
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     archivator *arch;
     about * abt;
+    help *hlp;
     bool code = true;
 };
 #endif // MAINWINDOW_H
