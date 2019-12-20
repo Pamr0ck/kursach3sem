@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     arch = new archivator;
+    abt = new about;
 }
 
 MainWindow::~MainWindow()
@@ -91,4 +92,9 @@ void MainWindow::on_actionSave_triggered()
             QMessageBox::warning(this, "Error", "Error to save file");
         }
     }
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    abt->show();
 }

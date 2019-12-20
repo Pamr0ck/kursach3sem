@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "archivator.h"
+#include "about.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -26,9 +27,12 @@ private slots:
     void on_actionSave_triggered();
     void save_without_show();
 
+    void on_actionAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
     archivator *arch;
+    about * abt;
     bool code = true;
 };
 #endif // MAINWINDOW_H
