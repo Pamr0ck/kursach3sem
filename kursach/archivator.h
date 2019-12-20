@@ -11,12 +11,14 @@
 #include <QString>
 #include <QVector>
 #include <QQueue>
+#include <QMap>
 #include <wchar.h>
 
 
 //#define QChar wchar_t
-#define QCHARLEN 15   // utf-8
-typedef QVector<QChar> code;
+#define QCHARLEN 16   // utf-8
+typedef QVector<wchar_t> code;
+typedef std::vector<wchar_t> decode;
 
 struct Node{
     QChar letter = 0;
@@ -35,6 +37,7 @@ class archivator
 public:
     archivator();
     QString DoCode (QString stream);
+    QString DoDeCode (QString stream);
 };
 
 #endif // ARCHIVATOR_H

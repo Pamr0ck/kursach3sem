@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "archivator.h"
+#include <QMessageBox>
+#include <QFileDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +20,11 @@ public:
 
 private slots:
     void on_DO_clicked();
+
+    void on_actionOpen_triggered();
+
+    void on_actionSave_triggered();
+    void save_without_show();
 
 private:
     Ui::MainWindow *ui;

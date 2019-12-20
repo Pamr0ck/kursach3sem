@@ -8,7 +8,7 @@ archivator::archivator()
 }
 
 QString to_binar(wchar_t buf){
-    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384};
+    unsigned short mask[] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768};
     QString result;
     int i = QCHARLEN;
 
@@ -19,17 +19,17 @@ QString to_binar(wchar_t buf){
     return result;
 }
 
-char to_letter(QVector<wchar_t> input){
+QChar to_letter(QVector<wchar_t> input){
     int i=0;
-    unsigned short mask[] = { 64, 32, 16, 8 , 4, 2, 1};
-    int d_letter = 0;
+    unsigned short mask[] = {32768,16384,8192,4096,2048,1024,512,256,128, 64, 32, 16, 8 , 4, 2, 1};
+    unsigned long long d_letter = 0;
     for (wchar_t it:input){
         d_letter += (it-L'0' )*mask[i];
         i++;
     }
-    return (wchar_t)d_letter;
+    wchar_t tmp = (wchar_t)d_letter;
+    return (QChar)tmp;
 }
-
 
 void inc_weight(Node* n){
     n->w++;
@@ -118,10 +118,11 @@ QString pref(Node* esc){   //prefix of letter
     return out;
 }
 
-void readletter(std::stringstream &stream, code &letter, const int &letterlen){
-    char buf;
-    for(int i = 0; i < letterlen; i++){
-        stream >> buf;
+void readletter(QString stream, code &letter, unsigned long long &i, const int &letterlen){
+    wchar_t buf;
+    const unsigned long long tmp = i;
+    for(i; i < letterlen+tmp; i++){
+        buf = stream.at(i).unicode();
         letter.push_back(buf);
     }
 }
@@ -158,7 +159,7 @@ QString archivator::DoCode (QString stream){
     Node* root = new Node;
     Node* esc = root;
 
-    QString str;
+//    QString str;
 
     std::cout << "Print a message needs to be encrypted:" << std::endl;
 //    std::getline(std::cin, str);
@@ -221,103 +222,108 @@ QString archivator::DoCode (QString stream){
 
 }
 
-/*
-void DoDeCode(){
-    char buf;
-        code letter;
-        std::map<code, Node*> leafs;
-        std::vector<code> message;
 
-        std::string text;
+QString archivator::DoDeCode(QString stream){
+    wchar_t buf;
+    code letter;
+    unsigned long long i = 0;
+    std::map<code, Node*> leafs;
+    std::vector<code> message;
 
-        Node* root = new Node;
-        Node* esc = root;
+    QString text;
 
-        std::string str;
+    Node* root = new Node;
+    Node* esc = root;
 
-        std::cout << "Print a message needs to be decrypted:" << std::endl;
-        std::getline(std::cin, str);
+//    std::string str;
 
-        std::stringstream stream(str);
+//    std::cout << "Print a message needs to be decrypted:" << std::endl;
+//    std::getline(std::cin, str);
 
-        while(stream.get(buf)){
-            if(esc == root){
-                readletter(stream, letter, QCHARLEN - 1);
-                letter.emplace(letter.begin(), buf);
+//    std::stringstream stream(str);
 
-                message.push_back(letter);
-                //
-                text.push_back(to_letter(letter));
-                //
+    while(i<stream.length()){
+        buf = stream.at(i).unicode();
+        i++;
+        if(esc == root){
+            readletter(stream, letter,i, QCHARLEN - 1);
+            letter.insert(letter.begin(), buf);
+//            letter.emplace(letter.begin(), buf);
 
-                leafs[letter] = new Node;
-                leafs[letter]->letter = letter;
-                root = new Node;
-                root->left = esc;
-                esc->parent = root;
+//            message.push_back(letter);
+            //
+            text.push_back(to_letter(letter));
+            //
 
-                root->right = leafs[letter];
-                leafs[letter]->parent = root;
-                inc_weight(leafs[letter]);
+            leafs[letter] = new Node;
+            leafs[letter]->letter_bin = letter;
+            root = new Node;
+            root->left = esc;
+            esc->parent = root;
 
-                letter.clear();
-            } else {
-                letter.push_back(buf);
-                Node *intree = find(root, letter);
+            root->right = leafs[letter];
+            leafs[letter]->parent = root;
+            inc_weight(leafs[letter]);
 
-                if(intree){
-                    switch(is_leaf(intree)){
-                    case  1:{
-                        letter.clear();
+            letter.clear();
+        } else {
+            letter.push_back(buf);
+            Node *intree = find(root, letter);
 
-                        message.push_back(intree->letter);
-                        //
-                        text.push_back(to_letter(intree->letter));
-                        //
-                        inc_weight(intree);
-                        break;
-                    }
-                    case -1:{
-                        letter.clear();
-                        readletter(stream, letter, QCHARLEN);
-                        message.push_back(letter);
-                        //
-                        text.push_back(to_letter(letter));
-                        //
-                        leafs[letter] = new Node;
-                        leafs[letter]->letter = letter;
-                        Node *n = new Node;
-                        n->parent = esc->parent;
-                        n->parent->left = n;
+            if(intree){
+                switch(is_leaf(intree)){
+                case  1:{
+                    letter.clear();
 
-                        n->left = esc;
-                        esc->parent = n;
-
-                        n->right = leafs[letter];
-                        leafs[letter]->parent = n;
-                        inc_weight(leafs[letter]);
-                        letter.clear();
-                        break;
-                    }
-                    default:  continue;
-                    }
-                } else {
-                    std::cout << "corrupted data" << std::endl;
-                    return ;
+//                    message.push_back(intree->letter);
+                    //
+                    text.push_back(to_letter(intree->letter_bin));
+                    //
+                    inc_weight(intree);
+                    break;
                 }
-            }
-            balance(root);
-        }
+                case -1:{
+                    letter.clear();
+                    readletter(stream, letter,i, QCHARLEN);
+//                    message.push_back(letter);
+                    //
+                    text.push_back(to_letter(letter));
+                    //
+                    leafs[letter] = new Node;
+                    leafs[letter]->letter_bin = letter;
+                    Node *n = new Node;
+                    n->parent = esc->parent;
+                    n->parent->left = n;
 
-        for(auto letter: message){
-            for(auto b: letter){
-                std::cout << b;
+                    n->left = esc;
+                    esc->parent = n;
+
+                    n->right = leafs[letter];
+                    leafs[letter]->parent = n;
+                    inc_weight(leafs[letter]);
+                    letter.clear();
+                    break;
+                }
+                default:  continue;
+                }
+            } else {
+                std::cout << "corrupted data" << std::endl;
+                return nullptr ;
             }
-            std::cout << std::endl;
         }
-        for(auto let:text){
-            std::cout<<let;
-        }
-        std::cout<<std::endl;
+        balance(root);
+    }
+
+//    for(auto letter: message){
+//        for(auto b: letter){
+//            std::cout << b;
+//        }
+//        std::cout << std::endl;
+//    }
+//    for(auto let:text){
+//        std::cout<<let;
+//    }
+//    std::cout<<std::endl;
+    return text;
 }
-*/
+
