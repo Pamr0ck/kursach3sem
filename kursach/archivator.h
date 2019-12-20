@@ -35,6 +35,7 @@ struct Node{
 class archivator
 {
 public:
+    Node* ROOT = nullptr;
     archivator();
     QString DoCode (QString stream);
     QString DoDeCode (QString stream);

@@ -218,6 +218,7 @@ QString archivator::DoCode (QString stream){
 //        printf("%c", it);
 //    }
 //    std::cout << std::endl;
+    ROOT = root;
     return coded;
 
 }
@@ -324,6 +325,7 @@ QString archivator::DoDeCode(QString stream){
 //        std::cout<<let;
 //    }
 //    std::cout<<std::endl;
+    ROOT = root;
     return text;
 }
 

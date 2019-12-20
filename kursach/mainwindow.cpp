@@ -98,3 +98,9 @@ void MainWindow::on_actionAbout_triggered()
 {
     abt->show();
 }
+
+void MainWindow::on_Visualize_clicked()
+{
+    graph *sWindow = new graph(nullptr, arch->ROOT);
+    sWindow->show();
+}

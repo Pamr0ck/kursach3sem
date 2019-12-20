@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "graph.h"
+#include "graph_node.h"
+#include "edge.h"
 #include "archivator.h"
 #include "about.h"
 #include <QMessageBox>
@@ -28,6 +31,8 @@ private slots:
     void save_without_show();
 
     void on_actionAbout_triggered();
+
+    void on_Visualize_clicked();
 
 private:
     Ui::MainWindow *ui;

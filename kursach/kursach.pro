@@ -18,6 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     about.cpp \
     archivator.cpp \
+    edge.cpp \
+    graph.cpp \
+    graph_node.cpp \
     help.cpp \
     main.cpp \
     mainwindow.cpp
@@ -25,6 +28,9 @@ SOURCES += \
 HEADERS += \
     about.h \
     archivator.h \
+    edge.h \
+    graph.h \
+    graph_node.h \
     help.h \
     mainwindow.h
 
